@@ -1,0 +1,84 @@
+- Sanalda kurulu Ubuntu ile local Windows arasında dosya paylaşımı?
+
+✅ 1. VirtualBox Guest Additions yüklü mü? (ÇOK ÖNEMLİ)
+
+Ubuntu çalışırken:
+
+VirtualBox menüsü →
+Devices → Insert Guest Additions CD Image
+(Ubuntu’yu kurduğun ISO ile Guest Additions ISO’su AYNI ŞEY DEĞİL.)
+
+Sonra Ubuntu terminalinde:
+
+Amaç: Linux paket listesini güncellemek.
+	sudo apt update
+
+Amaç: VirtualBox Guest Additions’ı derlemek için gerekli paketleri yüklemek.
+	sudo apt install -y build-essential dkms linux-headers-$(uname -r)
+
+Amaç: CD-ROM için mount noktası oluşturmak.
+	sudo mkdir -p /media/cdrom
+
+Amaç: VirtualBox’un Guest Additions ISO’sunu sisteme bağlamak.
+	sudo mount /dev/cdrom /media/cdrom
+
+Amaç: Guest Additions kurulumunu başlatmak.
+	sudo /media/cdrom/VBoxLinuxAdditions.run
+
+
+Kurulum bitince Ubuntu’yu yeniden başlat:
+	sudo reboot
+
+✅ 2. Windows klasörünü VirtualBox’ta paylaş
+
+Ubuntu kapalıyken (çok önemli)
+
+VirtualBox → Ubuntu → Settings
+
+Shared Folders → + (Add New)
+
+Ayarlar:
+
+Folder Path → Windows’taki klasörü seç
+(örnek: C:\Users\seyma\Desktop)
+
+Folder Name → paylasim
+
+✔ Auto-mount
+
+✔ Make Permanent
+
+OK → OK
+
+
+✅ 3. Ubuntu’da yetki problemi çöz (olmazsa olmaz)
+
+Ubuntu açıldıktan sonra terminalde:
+
+sudo usermod -aG vboxsf $USER
+
+
+Sonra logout → login yap
+
+
+✅ 4. Paylaşılan klasöre eriş
+
+Paylaşılan klasör otomatik olarak şurada olur:
+
+/media/
+
+
+Genelde adı şöyle olur:
+
+/media/sf_paylasim
+
+
+Kontrol etmek için:
+
+ls /media
+
+
+Dosyalar artık Windows ↔ Ubuntu ortak 🎉
+Ubuntu’dan bir dosya oluştur → Windows’ta anında görünür.
+
+------------------------------------------------------------------
